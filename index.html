@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upstairs Opening Checklist – A'REST Café</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #f0ede8; font-family: 'Segoe UI', sans-serif; padding: 20px; min-height: 100vh; }
+    .container { max-width: 560px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+
+    .card { background: #fff; border-radius: 16px; padding: 24px; }
+
+    .brand { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: #c8922a; margin-bottom: 8px; }
+    .title { font-size: 26px; font-weight: 700; color: #1a1a1a; }
+    .subtitle { font-size: 14px; color: #888; margin-top: 4px; }
+
+    label.field-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: #999; display: block; margin-bottom: 10px; }
+    input[type="text"] {
+      width: 100%; border: 1.5px solid #e5e5e5; border-radius: 10px;
+      padding: 12px 14px; font-size: 15px; color: #333; outline: none;
+      transition: border-color .2s;
+    }
+    input[type="text"]:focus { border-color: #c8922a; }
+
+    .progress-card { padding: 18px 24px; }
+    .progress-label { font-size: 13px; color: #999; margin-bottom: 8px; }
+    .progress-bar { height: 5px; background: #efefef; border-radius: 99px; overflow: hidden; }
+    .progress-fill { height: 100%; background: #c8922a; border-radius: 99px; transition: width .4s ease; }
+
+    .section-header {
+      font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+      color: #c8922a; padding: 10px 0 8px;
+      border-bottom: 1px solid #f5f0ea; margin-bottom: 4px;
+    }
+    .section-header:not(:first-child) { margin-top: 16px; }
+
+    .task-row {
+      display: flex; align-items: center; gap: 14px;
+      padding: 13px 0; border-bottom: 1px solid #f5f5f5; cursor: pointer;
+    }
+    .task-row:last-child { border-bottom: none; }
+
+    .task-row input[type="checkbox"] { display: none; }
+    .custom-cb {
+      width: 22px; height: 22px; border: 2px solid #ddd; border-radius: 6px;
+      flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+      transition: all .2s;
+    }
+    .task-row.checked .custom-cb {
+      background: #c8922a; border-color: #c8922a;
+    }
+    .task-row.checked .custom-cb::after {
+      content: ''; display: block; width: 6px; height: 10px;
+      border: 2px solid #fff; border-top: none; border-left: none;
+      transform: rotate(45deg) translateY(-1px);
+    }
+    .task-text { font-size: 15px; color: #333; transition: color .2s; }
+    .task-row.checked .task-text { color: #bbb; text-decoration: line-through; }
+
+    .submit-btn {
+      width: 100%; padding: 16px; border: 2px solid #1a1a1a; border-radius: 12px;
+      background: #fff; font-size: 15px; font-weight: 700; color: #1a1a1a;
+      cursor: pointer; transition: all .2s; letter-spacing: .3px;
+    }
+    .submit-btn:hover { background: #1a1a1a; color: #fff; }
+    .copy-toast {
+      display: none; text-align: center; font-size: 13px; color: #c8922a;
+      font-weight: 600; margin-top: 10px; letter-spacing: .3px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="card">
+    <div class="brand">A'REST CAFÉ</div>
+    <div class="title">Upstairs Opening Checklist</div>
+    <div class="subtitle">Damansara Uptown</div>
+  </div>
+
+  <!-- Staff Name -->
+  <div class="card">
+    <label class="field-label" for="staffName">STAFF NAME</label>
+    <input type="text" id="staffName" placeholder="Enter your name...">
+  </div>
+
+  <!-- Progress -->
+  <div class="card progress-card">
+    <div class="progress-label" id="progressLabel">0 of 7 tasks completed</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  </div>
+
+  <!-- Checklist -->
+  <div class="card" id="checklist">
+
+    <div class="section-header">AMBIANCE</div>
+    <div class="task-row" onclick="toggle(this)">
+      <input type="checkbox"><div class="custom-cb"></div>
+      <span class="task-text">Turn on all lights and air conditioning</span>
+    </div>
+    <div class="task-row" onclick="toggle(this)">
+      <input type="checkbox"><div class="custom-cb"></div>
+      <span class="task-text">Turn on music</span>
+    </div>
+    <div class="task-row" onclick="toggle(this)">
+      <input type="checkbox"><div class="custom-cb"></div>
+      <span class="task-text">Turn on the movie / display screen</span>
+    </div>
+
+    <div class="section-header">CLEANLINESS</div>
+    <div class="task-row" onclick="toggle(this)">
+      <input type="checkbox"><div class="custom-cb"></div>
+      <span class="task-text">Wipe all tables and chairs / sofas</span>
+    </div>
+    <div class="task-row" onclick="toggle(this)">
+      <input type="checkbox"><div class="custom-cb"></div>
+      <span class="task-text">Ensure floor is clean — no dust or food residue</span>
+    </div>
+
+    <div class="section-header">STAFF & POS</div>
+    <div class="task-row" onclick="toggle(this)">
+      <input type="checkbox"><div class="custom-cb"></div>
+      <span class="task-text">Staff wearing earphone</span>
+    </div>
+    <div class="task-row" onclick="toggle(this)">
+      <input type="checkbox"><div class="custom-cb"></div>
+      <span class="task-text">POS menu checked — all available items open</span>
+    </div>
+
+  </div>
+
+  <!-- Submit -->
+  <div class="card" style="padding:20px">
+    <button class="submit-btn" onclick="copyChecklist()">Complete &amp; Copy Checklist</button>
+    <div class="copy-toast" id="copyToast">✅ Copied to clipboard!</div>
+  </div>
+
+</div>
+
+<script>
+  const total = 7;
+
+  function toggle(row) {
+    row.classList.toggle('checked');
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const done = document.querySelectorAll('.task-row.checked').length;
+    document.getElementById('progressLabel').textContent = `${done} of ${total} tasks completed`;
+    document.getElementById('progressFill').style.width = `${(done / total) * 100}%`;
+  }
+
+  function copyChecklist() {
+    const name = document.getElementById('staffName').value.trim() || 'Staff';
+    const rows = document.querySelectorAll('.task-row');
+    const done = document.querySelectorAll('.task-row.checked').length;
+    const now = new Date();
+    const time = now.toLocaleTimeString('en-MY', { hour: '2-digit', minute: '2-digit' });
+    const date = now.toLocaleDateString('en-MY', { day: 'numeric', month: 'long', year: 'numeric' });
+
+    let msg = `✅ A'REST Café – Upstairs Opening Checklist\n`;
+    msg += `📍 Damansara Uptown\n`;
+    msg += `👤 ${name}\n`;
+    msg += `🕐 ${time}, ${date}\n\n`;
+
+    let currentSection = '';
+    rows.forEach(row => {
+      const prev = row.previousElementSibling;
+      if (prev && prev.classList.contains('section-header')) {
+        currentSection = prev.textContent;
+        msg += `${currentSection}\n`;
+      }
+      const text = row.querySelector('.task-text').textContent;
+      const checked = row.classList.contains('checked');
+      msg += `${checked ? '☑️' : '⬜'} ${text}\n`;
+    });
+
+    msg += `\n📊 ${done}/${total} tasks completed`;
+
+    navigator.clipboard.writeText(msg).then(() => {
+      const toast = document.getElementById('copyToast');
+      toast.style.display = 'block';
+      setTimeout(() => toast.style.display = 'none', 3000);
+    });
+  }
+</script>
+</body>
+</html>
